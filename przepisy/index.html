@@ -1,11 +1,99 @@
 <html>
-    <body>
-        <h2>Przepisy</h2>
-        <ul>
-            <a href="./chmurka.html">Malinowa chmurka chmurka</a>
-            <a href="./chleb.html">Chleb pszenno-żytni</a>
-            <a href="./rogaliki.html">Rogaliki orzechowe</a>
-            <a href="./sernik.html">Sernik na zimno</a>
-        </ul>
-    </body>
-</html>   
+  <head>
+    <style>
+      body {
+        background: #ffbe0b;
+        font-family: "Space Mono";
+        font-weight: 400;
+        font-size: 0.8em;
+        color: #aaa;
+        display: flex;
+        margin-top: 100px;
+      }
+
+      element {
+      }
+      .task {
+        overflow: hidden;
+
+        transition: all 0.2s 0.2s cubic-bezier(0.7, 0.2, 0.17, 1);
+
+        position: relative;
+
+        display: block;
+      }
+      * {
+        margin: 0;
+
+        padding: 0;
+      }
+      .container {
+        width: 600px;
+        margin: auto;
+        box-shadow: 0 0 2px hsla(0, 0%, 0%, 0.2);
+        border-radius: 6px;
+        background-color: #f8f8f8;
+      }
+      h2 {
+        background: #fe5f55;
+        color: white;
+        margin: 0;
+        padding: 10px;
+        font-weight: bold;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+      }
+      ul {
+        position: relative;
+      }
+      ul li {
+        position: relative;
+        left: 0;
+        color: #fce4ec;
+        list-style: none;
+        margin: 4px 0;
+        border-left: 2px solid #f50057;
+        transition: 0.5s;
+        cursor: pointer;
+      }
+      ul li:hover {
+        left: 10px;
+      }
+      ul li a {
+        position: relative;
+        padding: 8px;
+        padding-left: 12px;
+        display: inline-block;
+        z-index: 1;
+        transition: 0.5s;
+      }
+      ul li:hover a {
+        color: #111;
+      }
+      ul li:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #f50057;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: 0.5s;
+      }
+      ul li:hover:before {
+        transform: scaleX(1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Przepisy</h2>
+      <ul>
+        <li><a href="./chmurka.html">Malinowa chmurka chmurka</a></li>
+        <li><a href="./chleb.html">Chleb pszenno-żytni</a></li>
+        <li><a href="./rogaliki.html">Rogaliki orzechowe</a></li>
+        <li><a href="./sernik.html">Sernik na zimno</a></li>
+      </ul>
+    </div>
+  </body>
+</html>

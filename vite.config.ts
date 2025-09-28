@@ -10,6 +10,10 @@ export default defineConfig({
           src: 'nereczka',
           dest: 'nereczka'
         },
+        {
+          src: 'przepisy',
+          dest: 'przepisy'
+        },
       ],
     }),],
 

@@ -8,11 +8,11 @@ export default defineConfig({
       targets: [
         {
           src: 'nereczka',
-          dest: 'nereczka'
+          dest: ''
         },
         {
           src: 'przepisy',
-          dest: 'przepisy'
+          dest: ''
         },
       ],
     }),],

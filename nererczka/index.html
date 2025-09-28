@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plecak i Nerka</title>
+    <style>
+        /* Styl dla całego ciała strony (różowe tło) */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Wyśrodkowanie w pionie */
+            align-items: center; /* Wyśrodkowanie w poziomie */
+            min-height: 100vh; /* Zajmuje całą wysokość widocznego obszaru */
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffe0ee; /* Bardzo jasny róż */
+            color: #883355; /* Ciemniejszy róż dla tekstu */
+            text-align: center;
+        }
+
+        /* Styl dla nagłówka */
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        /* Styl dla przycisku */
+        button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #ff69b4; /* Gorący róż */
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Efekt najechania na przycisk */
+        button:hover {
+            background-color: #ff1493; /* Głęboki róż */
+        }
+
+        /* Styl dla formularza, który wysyła POST */
+        .post-form {
+            display: inline-block; /* Aby przycisk był na środku */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Kliknij poniższy przycisk żeby zamówić Olową Maxi Nereczkę</h1>
+
+    <form class="post-form" action="https://manashop.pl/kreator/nerka/" method="post">
+        <input type="hidden" name="size_8116" value="maxi"/>
+        <input type="hidden" name="bag_id" value="8116"/>
+ 
+        <button type="submit">Olowa Nereczka</button>
+    </form>
+
+</body>
+</html>

@@ -47,7 +47,10 @@ export default function App() {
       <header className="hero" style={{ backgroundImage: `url(${hero})` }}>
         <div className="hero__content">
           <p className="hero__eyebrow">Przygody w śniegu i nie tylko</p>
-          <h1 className="hero__title">Pan Jamnik</h1>
+          <h1 className="hero__title">
+            <img className="hero__logo" src="/favicon.svg" alt="" />
+            Pan Jamnik
+          </h1>
           <a className="button" href={YOUTUBE_URL} target="_blank" rel="noreferrer">
             <YouTubeIcon />
             Obejrzyj na YouTube

@@ -1,57 +1,478 @@
+:root {
+  --snow: #f6f8fc;
+  --surface: #ffffff;
+  --ink: #1b2336;
+  --muted: #5d6880;
+  --sky: #2d5aa6;
+  --flamingo: #ff4f9a;
+  --flamingo-dark: #e23a84;
+  --radius: 14px;
+  --shadow: 0 1px 2px rgb(27 35 54 / 6%), 0 8px 24px -8px rgb(27 35 54 / 18%);
+  --shadow-hover: 0 2px 4px rgb(27 35 54 / 8%), 0 18px 40px -12px rgb(27 35 54 / 30%);
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --snow: #10141f;
+    --surface: #1a2030;
+    --ink: #eef1f7;
+    --muted: #9aa4ba;
+    --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 8px 24px -8px rgb(0 0 0 / 50%);
+    --shadow-hover: 0 2px 4px rgb(0 0 0 / 35%), 0 18px 40px -12px rgb(0 0 0 / 65%);
+  }
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url("./assets/jamnikflamia.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
+  background: var(--snow);
+  color: var(--ink);
 }
 
-header {
+/* Hero */
+
+.hero {
+  position: relative;
   display: flex;
-  flex-flow: row wrap;
-  align-items: baseline;
-  justify-content: center;
-  margin: 16px 8px;
+  align-items: flex-end;
+  min-height: min(78vh, 720px);
+  padding: 32px 16px;
+  background-position: 55% 60%;
+  background-size: cover;
+  color: #fff;
+  isolation: isolate;
 }
 
-header h1 {
-  font-size: 1.4rem;
-  font-weight: 500;
-  margin: 0;
-  padding: 8px;
-  text-align: center;
+@media (max-width: 600px) {
+  .hero {
+    min-height: 520px;
+    /* keep both the dachshund and the flamingo in frame */
+    background-position: 78% 60%;
+  }
 }
 
-header a {
-  font-size: 1.4rem;
-  font-weight: 500;
-  margin: 0;
-  padding: 8px;
-  color: rgb(0, 112, 243);
-  text-decoration: none;
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgb(16 22 38 / 80%) 0%, rgb(16 22 38 / 35%) 40%, rgb(16 22 38 / 0%) 70%);
 }
 
-header a:hover {
-  text-decoration: underline;
-}
-
-main {
-  padding: 16px;
+.hero__content {
+  width: 100%;
   max-width: 1200px;
   margin-inline: auto;
 }
-button.react-photo-album--button {
+
+.hero__eyebrow {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.hero__title {
+  margin: 0 0 28px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(2.75rem, 9vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: var(--flamingo);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 6px 20px -6px rgb(255 79 154 / 60%);
+  transition: background-color 200ms, transform 200ms;
+}
+
+.button:hover {
+  background: var(--flamingo-dark);
+  transform: translateY(-1px);
+}
+
+.button:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+/* Gallery */
+
+main {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: 48px 16px 64px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 600;
+}
+
+.section-heading__count,
+.section-heading__link {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.section-heading__link {
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.section-heading__link:hover {
+  color: var(--flamingo);
+}
+
+.section {
+  margin-bottom: 56px;
+}
+
+/* Videos */
+
+.videos {
+  display: grid;
+  grid-auto-flow: column;
+  /* show three cards and a peek of the next one */
+  grid-auto-columns: calc((100% - 2 * 20px) / 3.15);
+  gap: 20px;
+  /* room for the hover lift and shadow, which would be clipped by the scroll container */
+  margin: -8px -16px 0;
+  padding: 8px 16px 16px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--muted) 40%, transparent) transparent;
+}
+
+@media (max-width: 900px) {
+  .videos {
+    grid-auto-columns: calc((100% - 20px) / 2.2);
+  }
+}
+
+@media (max-width: 500px) {
+  .videos {
+    grid-auto-columns: 80%;
+  }
+}
+
+.section-heading__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-heading__actions .section-heading__link {
+  margin-right: 8px;
+}
+
+.scroll-button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0 0 3px;
+  border: 1px solid color-mix(in srgb, var(--muted) 35%, transparent);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 200ms, color 200ms;
+}
+
+.scroll-button:hover {
+  border-color: var(--flamingo);
+  color: var(--flamingo);
+}
+
+.scroll-button:focus-visible {
+  outline: 3px solid var(--flamingo);
+  outline-offset: 2px;
+}
+
+@media (hover: none), (max-width: 600px) {
+  /* on touch screens swiping is enough */
+  .scroll-button {
+    display: none;
+  }
+}
+
+.video {
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.video__thumb {
+  position: relative;
   display: block;
-  border-radius: 4px;
-  box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  overflow: hidden;
+  margin-bottom: 8px;
+  border-radius: var(--radius);
+  aspect-ratio: 16 / 9;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  transition: box-shadow 300ms, transform 300ms;
+}
+
+.video__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.video__play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgb(16 22 38 / 25%);
+  color: #fff;
+  transition: background-color 300ms;
+}
+
+.video__play svg {
+  width: 56px;
+  height: 56px;
+  filter: drop-shadow(0 4px 12px rgb(0 0 0 / 40%));
+}
+
+.video:hover .video__thumb {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
+}
+
+.video:hover .video__thumb img {
+  transform: scale(1.04);
+}
+
+.video:hover .video__play {
+  background: rgb(16 22 38 / 10%);
+  color: var(--flamingo);
+}
+
+.video:focus-visible {
+  outline: none;
+}
+
+.video:focus-visible .video__thumb {
+  outline: 3px solid var(--flamingo);
+  outline-offset: 3px;
+}
+
+.video__title {
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.video__date {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.react-photo-album--photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  transition: box-shadow 300ms, transform 300ms;
+}
+
+.react-photo-album--photo:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
+}
+
+.react-photo-album--photo:focus-visible {
+  outline: 3px solid var(--flamingo);
+  outline-offset: 3px;
+}
+
+.react-photo-album--image {
+  transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.react-photo-album--photo:hover .react-photo-album--image {
+  transform: scale(1.04);
+}
+
+.photo-caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 36px 16px 14px;
+  background: linear-gradient(to top, rgb(16 22 38 / 75%), rgb(16 22 38 / 0%));
+  color: #fff;
+  text-align: left;
+  pointer-events: none;
+}
+
+.photo-caption__title {
+  font-weight: 600;
+}
+
+.photo-caption__date {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+/* Projects */
+
+.section--projects {
+  margin: 64px 0 0;
+}
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 700px) {
+  .projects {
+    grid-template-columns: 1fr;
+  }
+}
+
+.project {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid color-mix(in srgb, var(--muted) 20%, transparent);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 300ms, box-shadow 300ms, transform 300ms;
+}
+
+.project:hover {
+  border-color: var(--flamingo);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
+}
+
+.project:focus-visible {
+  outline: 3px solid var(--flamingo);
+  outline-offset: 3px;
+}
+
+.project__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--sky) 15%, transparent);
+  font-size: 1.5rem;
+}
+
+.project__image {
+  flex: none;
+  /* the app icon has transparent padding around it, so it's drawn a bit bigger than the emoji tiles */
+  width: 56px;
+  height: 56px;
+  margin: -4px;
+}
+
+.project__body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.project__name {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.project__description {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.project__url {
+  margin-top: 4px;
+  color: var(--flamingo);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Footer */
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: 24px 16px 40px;
+  border-top: 1px solid color-mix(in srgb, var(--muted) 25%, transparent);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.footer a {
+  color: inherit;
+}
+
+.footer a:hover {
+  color: var(--flamingo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .react-photo-album--photo,
+  .react-photo-album--image,
+  .video__thumb,
+  .video__thumb img,
+  .project,
+  .button {
+    transition: none;
+  }
 }

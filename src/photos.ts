@@ -17,12 +17,16 @@ import gondolki_20250126_small from "./assets/gallery/small/20250126_gondolki.jp
 import gondolki2_20250126 from "./assets/gallery/20250126_gondolki2.jpg";
 import gondolki2_20250126_small from "./assets/gallery/small/20250126_gondolki2.jpg";
 
+export type GalleryPhoto = Photo & { date: string; description?: string };
+
 const photos = [
   {
     asset: wisla_20250109,
     assetSmall: wisla_20250109_small,
     width: 4000,
     height: 3000,
+    date: "2025-01-09",
+    title: "Wisła",
     alt: "Widok na Wisłę z mostu Kotlarskiego",
   },
   {
@@ -30,28 +34,30 @@ const photos = [
     assetSmall: krakow_20250115_small,
     width: 3000,
     height: 4000,
+    date: "2025-01-15",
+    title: "Kraków",
     alt: "Biegówki o poranku w Krakowie",
   },
-  { asset: pilsko_20250118, assetSmall: pilsko_20250118_small, width: 3000, height: 4000, alt: "" },
-  { asset: nowytarg_20250119, assetSmall: nowytarg_20250119_small, width: 3000, height: 4000, alt: "" },
-  { asset: nowytarg2_20250119, assetSmall: nowytarg2_20250119_small, width: 3000, height: 4000, alt: "" },
-  { asset: gora_20250123, assetSmall: gora_20250123_small, width: 3000, height: 4000, alt: "" },
-  { asset: gondolki_20250126, assetSmall: gondolki_20250126_small, width: 3000, height: 4000, alt: "" },
-  { asset: gondolki2_20250126, assetSmall: gondolki2_20250126_small, width: 4000, height: 3000, alt: "" },
+  { asset: pilsko_20250118, assetSmall: pilsko_20250118_small, width: 3000, height: 4000, date: "2025-01-18", title: "Pilsko i Babia Góra", alt: "" },
+  { asset: nowytarg_20250119, assetSmall: nowytarg_20250119_small, width: 4000, height: 3000, date: "2025-01-19", title: "Nowy Targ", alt: "" },
+  { asset: nowytarg2_20250119, assetSmall: nowytarg2_20250119_small, width: 4000, height: 3000, date: "2025-01-19", title: "Nowy Targ", alt: "" },
+  { asset: gora_20250123, assetSmall: gora_20250123_small, width: 4000, height: 3000, date: "2025-01-23", title: "Góra", alt: "" },
+  { asset: gondolki_20250126, assetSmall: gondolki_20250126_small, width: 4000, height: 3000, date: "2025-01-26", title: "Gondolki", alt: "" },
+  { asset: gondolki2_20250126, assetSmall: gondolki2_20250126_small, width: 4000, height: 3000, date: "2025-01-26", title: "Gondolki", alt: "" },
 ].map(
-  ({ asset, assetSmall, alt, width, height }) =>
-    ({
-      src: assetSmall,
-      alt,
-      width,
-      height,
-      srcSet: [
-        {
-          src: asset,
-          height: 400,
-        },
-      ],
-    } as Photo)
+  ({ asset, assetSmall, alt, title, date, width, height }): GalleryPhoto => ({
+    src: asset,
+    alt: alt || title,
+    title,
+    description: alt || undefined,
+    date,
+    width,
+    height,
+    srcSet: [
+      { src: assetSmall, width: 400, height: Math.round((400 * height) / width) },
+      { src: asset, width, height },
+    ],
+  })
 );
 
 export default photos;

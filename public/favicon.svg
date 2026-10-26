@@ -1,14 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" stroke-linecap="round" stroke-linejoin="round" fill="none">
-  <path d="M7 47 L49.5 59.7 Q55 61.3 54.5 56.5" stroke="#a8440c" stroke-width="4.5"/>
-  <path d="M5 41 L53.5 55.5 Q59 57.1 58.5 52.3" stroke="#c4520f" stroke-width="4.5"/>
-  <path d="M49 31 L55 52" stroke="#ff4f9a" stroke-width="2.5"/>
-  <path d="M23 30 L37 35 L31 47" stroke="#b8955f" stroke-width="9"/>
-  <path d="M23 30 L28 40 L20 49" stroke="#9f7d4a" stroke-width="8"/>
-  <path d="M24 29 L30 18" stroke="#dcc08f" stroke-width="13"/>
-  <path d="M30 20 L44 26 L49 30" stroke="#dcc08f" stroke-width="6"/>
-  <circle cx="49.5" cy="30.5" r="3.5" fill="#1b2336"/>
-  <path d="M26 16 Q34 22 38 19" stroke="#ffbe0b" stroke-width="4"/>
-  <circle cx="35" cy="10.5" r="7" fill="#f2c3a0"/>
-  <path d="M27.8 10 A7.2 7.2 0 0 1 42.2 9.5 Z" fill="#141414"/>
-  <rect x="35" y="9" width="8" height="4.5" rx="2.2" fill="#3b8de0" stroke="#1b2336" stroke-width="1.5"/>
+  <!-- far side -->
+  <path d="M10 43 L52 51.7 Q57.5 52.8 57 47.8" stroke="#a8440c" stroke-width="4"/>
+  <path d="M50 22.5 L45.5 50.5" stroke="#d63f80" stroke-width="2.5"/>
+  <path d="M25 45 L32 37 L23 31" stroke="#9f7d4a" stroke-width="7.5"/>
+  <path d="M30 19 L36 27 L48.5 24.5" stroke="#c4a674" stroke-width="5"/>
+  <circle cx="49" cy="24.5" r="3" fill="#141b2a"/>
+  <!-- near side -->
+  <path d="M6 46 L52 55.6 Q57.5 56.7 57 51.7" stroke="#c4520f" stroke-width="4.5"/>
+  <path d="M28 49 L36 40 L24 32" stroke="#b8955f" stroke-width="8.5"/>
+  <path d="M24 31 L30.5 19" stroke="#dcc08f" stroke-width="11.5"/>
+  <circle cx="35" cy="11.5" r="6.3" fill="#f2c3a0"/>
+  <path d="M28.5 11 A6.5 6.5 0 0 1 41.5 10 Z" fill="#141414"/>
+  <rect x="35" y="9.5" width="7.5" height="4.2" rx="2.1" fill="#3b8de0" stroke="#1b2336" stroke-width="1.4"/>
+  <path d="M44.5 27 L36 53" stroke="#ff4f9a" stroke-width="2.5"/>
+  <path d="M31 20.5 L33.5 30 L42.5 29.5" stroke="#d3b682" stroke-width="5.5"/>
+  <circle cx="43.5" cy="29.5" r="3.3" fill="#1b2336"/>
 </svg>

@@ -16,6 +16,7 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 import hero from "./assets/jamnikflamia.jpg";
 import blaskIcon from "./assets/projects/blask.png";
+import liftradarLogo from "./assets/projects/liftradar.svg";
 import photos from "./photos";
 import videos from "./videos.json";
 
@@ -31,7 +32,7 @@ const projects = [
   {
     name: "LiftRadar.eu",
     url: "https://liftradar.eu",
-    icon: "❄️",
+    icon: <img src={liftradarLogo} alt="" />,
     description: "Warunki śniegowe w alpejskich ośrodkach: pokrywa śnieżna, otwarte wyciągi i trasy, aktualizowane dwa razy dziennie.",
   },
 ];
@@ -108,9 +109,15 @@ export default function App() {
       </main>
 
       <footer className="footer">
-        <span>© {new Date().getFullYear()} Pan Jamnik</span>
-        <a href={YOUTUBE_URL} target="_blank" rel="noreferrer">
-          youtube.com/@panjamnik
+        <span className="footer__brand">
+          <img src="/favicon.svg" width="28" height="28" alt="" />
+          <span>
+            © {new Date().getFullYear()} <b>Pan Jamnik</b>
+          </span>
+        </span>
+        <a className="footer__channel" href={YOUTUBE_URL} target="_blank" rel="noreferrer">
+          <YouTubeIcon />
+          @panjamnik
         </a>
       </footer>
 

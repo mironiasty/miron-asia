@@ -421,6 +421,11 @@ main {
   font-size: 1.5rem;
 }
 
+.project__icon img {
+  width: 32px;
+  height: 32px;
+}
+
 .project__image {
   flex: none;
   /* the app icon has transparent padding around it, so it's drawn a bit bigger than the emoji tiles */
@@ -459,6 +464,7 @@ main {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
   gap: 8px;
   max-width: 1200px;
   margin-inline: auto;
@@ -470,6 +476,35 @@ main {
 
 .footer a {
   color: inherit;
+}
+
+.footer__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer__brand img {
+  flex: none;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--sky) 15%, transparent);
+}
+
+.footer__brand b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.footer__channel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.footer__channel svg {
+  color: #ff0000;
 }
 
 .footer a:hover {

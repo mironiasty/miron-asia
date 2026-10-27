@@ -29,8 +29,8 @@ const projects = [
     description: "Darmowa aplikacja na Maca, która synchronizuje światła Philips Hue z obrazem na ekranie albo z muzyką.",
   },
   {
-    name: "Snow Conditions",
-    url: "https://snow.miron.asia",
+    name: "LiftRadar.eu",
+    url: "https://liftradar.eu",
     icon: "❄️",
     description: "Warunki śniegowe w alpejskich ośrodkach: pokrywa śnieżna, otwarte wyciągi i trasy, aktualizowane dwa razy dziennie.",
   },

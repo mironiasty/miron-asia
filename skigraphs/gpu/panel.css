@@ -1,0 +1,12 @@
+.panel{padding-right:16px}
+.panel-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px}
+.panel.collapsed .panel-top{margin:0}
+.panel-home{color:var(--ink-secondary);font-size:13px;text-decoration:none}
+.panel-home:hover{color:var(--ink)}
+.panel-toggle{width:28px;height:28px;padding:0;border:1px solid var(--border);border-radius:50%;background:var(--surface-muted);color:var(--ink);font:inherit;font-size:16px;line-height:1;cursor:pointer;flex:none}
+.views a.back,.views a[href="/"]{display:none}
+.panel.collapsed{width:auto;max-width:calc(100% - 32px);max-height:none;right:auto;overflow:visible}
+.panel.collapsed>:not(.panel-top){display:none}
+.panel-name{display:none;font-size:15px;font-weight:600}
+.panel.collapsed .panel-name{display:inline}
+.panel.collapsed .panel-home{display:none}

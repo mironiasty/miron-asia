@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ghost Skiers</title>
+<title>Duchy | Wykresy narciarskie</title>
   <script type="module" crossorigin src="./assets/tgpuVertexFn-C_AGyn8d.js"></script>
   <script type="module" crossorigin src="./assets/map-CkGKUfEB.js"></script>
   <script type="module" crossorigin src="./assets/main-BEHjcZg1.js"></script>
@@ -13,21 +13,21 @@
 <body>
 <div id="map" class="layer"></div>
 <canvas id="ghosts" class="layer overlay"></canvas>
-<div class="status" id="status">Loading ghosts…</div>
+<div class="status" id="status">Wczytywanie duchów…</div>
 
 <aside class="panel">
-  <nav class="views" aria-label="Views"></nav>
-  <h1>Ghost skiers</h1>
-  <p class="sub">Every ski day in Austria, replayed at the same time</p>
+  <nav class="views" aria-label="Widoki"></nav>
+  <h1>Duchy na stoku</h1>
+  <p class="sub">Wszystkie dni na nartach w Austrii odtworzone w tym samym czasie</p>
 
   <div class="clock"><b id="clock">--:--</b><span id="active">&nbsp;</span></div>
   <div class="transport">
-    <button id="play" aria-label="Pause">❚❚</button>
-    <input type="range" id="scrub" step="1" aria-label="Time of day">
+    <button id="play" aria-label="Pauza">❚❚</button>
+    <input type="range" id="scrub" step="1" aria-label="Pora dnia">
   </div>
 
   <div class="row">
-    <span class="label">Replay speed</span>
+    <span class="label">Prędkość odtwarzania</span>
     <div class="seg" data-control="speed">
       <button aria-pressed="false" data-value="120">2 min/s</button>
       <button aria-pressed="true" data-value="300">5 min/s</button>
@@ -35,26 +35,26 @@
     </div>
   </div>
   <div class="row">
-    <span class="label">Trail</span>
+    <span class="label">Smuga</span>
     <div class="seg" data-control="trail">
       <button aria-pressed="false" data-value="short">5 min</button>
       <button aria-pressed="true" data-value="long">30 min</button>
-      <button aria-pressed="false" data-value="day">All day</button>
+      <button aria-pressed="false" data-value="day">Cały dzień</button>
     </div>
   </div>
   <div class="row">
-    <span class="label">Color by</span>
+    <span class="label">Koloruj według</span>
     <div class="seg" data-control="color">
-      <button aria-pressed="true" data-value="speed">Speed</button>
-      <button aria-pressed="false" data-value="season">Season</button>
+      <button aria-pressed="true" data-value="speed">Prędkość</button>
+      <button aria-pressed="false" data-value="season">Sezon</button>
     </div>
   </div>
   <div class="row">
-    <span class="label">Seasons</span>
+    <span class="label">Sezony</span>
     <div class="chips" id="seasons"></div>
   </div>
   <div class="row">
-    <label class="check"><input type="checkbox" id="lifts" checked> Show lift rides</label>
+    <label class="check"><input type="checkbox" id="lifts" checked> Pokaż wjazdy wyciągami</label>
   </div>
   <div class="legend" id="legend"></div>
 </aside>

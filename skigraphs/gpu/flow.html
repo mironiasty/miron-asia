@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ski Flow</title>
+<title>Przepływ | Wykresy narciarskie</title>
   <script type="module" crossorigin src="./assets/flow-iSot2jhj.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/tgpuVertexFn-C_AGyn8d.js">
   <link rel="modulepreload" crossorigin href="./assets/map-CkGKUfEB.js">
@@ -13,38 +13,38 @@
 <body>
 <div id="map" class="layer"></div>
 <canvas id="flow" class="layer overlay"></canvas>
-<div class="status" id="status">Loading tracks…</div>
+<div class="status" id="status">Wczytywanie tras…</div>
 
 <aside class="panel">
-  <nav class="views" aria-label="Views"></nav>
-  <h1>Flow of your skiing</h1>
-  <p class="sub">Snow particles stream the way you usually ski. Zoom into a resort.</p>
+  <nav class="views" aria-label="Widoki"></nav>
+  <h1>Przepływ twojej jazdy</h1>
+  <p class="sub">Cząsteczki śniegu płyną tak, jak zwykle jeździsz. Przybliż wybrany ośrodek.</p>
 
   <div class="row">
-    <span class="label">Particles</span>
+    <span class="label">Cząsteczki</span>
     <div class="seg" data-control="particles">
-      <button aria-pressed="false" data-value="calm">Calm</button>
-      <button aria-pressed="true" data-value="busy">Busy</button>
-      <button aria-pressed="false" data-value="blizzard">Blizzard</button>
+      <button aria-pressed="false" data-value="calm">Spokojnie</button>
+      <button aria-pressed="true" data-value="busy">Gęsto</button>
+      <button aria-pressed="false" data-value="blizzard">Zamieć</button>
     </div>
   </div>
   <div class="row">
-    <span class="label">Flow speed</span>
+    <span class="label">Prędkość przepływu</span>
     <div class="seg" data-control="speed">
-      <button aria-pressed="false" data-value="slow">Slow</button>
-      <button aria-pressed="true" data-value="normal">Normal</button>
-      <button aria-pressed="false" data-value="fast">Fast</button>
+      <button aria-pressed="false" data-value="slow">Wolno</button>
+      <button aria-pressed="true" data-value="normal">Normalnie</button>
+      <button aria-pressed="false" data-value="fast">Szybko</button>
     </div>
   </div>
   <div class="row">
-    <span class="label">Color by</span>
+    <span class="label">Koloruj według</span>
     <div class="seg" data-control="color">
-      <button aria-pressed="true" data-value="speed">Speed</button>
-      <button aria-pressed="false" data-value="snow">Snow</button>
+      <button aria-pressed="true" data-value="speed">Prędkość</button>
+      <button aria-pressed="false" data-value="snow">Śnieg</button>
     </div>
   </div>
   <div class="legend" id="legend"></div>
-  <p class="hint">Built from every run (lifts and standing excluded) in the current view.</p>
+  <p class="hint">Zbudowane ze wszystkich zjazdów w bieżącym widoku (bez wyciągów i postojów).</p>
 </aside>
 
 </body>

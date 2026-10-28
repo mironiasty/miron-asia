@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Skiing in Austria</title>
+<title>Mapa cieplna | Wykresy narciarskie</title>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
 <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
 <style>
@@ -104,53 +104,54 @@
 </head>
 <body>
 <div id="map"></div>
-<div class="status" id="status">Loading tracks…</div>
+<div class="status" id="status">Wczytywanie tras…</div>
 
 <aside class="panel">
-  <nav class="views" aria-label="Views">
-    <a href="./" aria-current="page">Heatmap</a>
-    <a href="../gpu/">Ghosts</a>
-    <a href="../gpu/race.html">Race</a>
-    <a href="../gpu/flow.html">Flow</a>
-    <a href="../gpu/ribbons.html">Ribbons</a>
+  <nav class="views" aria-label="Widoki">
+    <a href="/">← Strona główna</a>
+    <a href="./" aria-current="page">Mapa cieplna</a>
+    <a href="../gpu/">Duchy</a>
+    <a href="../gpu/race.html">Wyścig</a>
+    <a href="../gpu/flow.html">Przepływ</a>
+    <a href="../gpu/ribbons.html">Wstęgi</a>
     <a href="../gpu/dna.html">DNA</a>
   </nav>
-  <h1>Skiing in Austria</h1>
+  <h1>Narty w Austrii</h1>
   <p class="sub" id="sub">&nbsp;</p>
   <div class="stats">
-    <div class="stat"><b id="st-days">–</b><span>ski days</span></div>
-    <div class="stat"><b id="st-vert">–</b><span>km vertical</span></div>
-    <div class="stat"><b id="st-km">–</b><span>km of runs</span></div>
-    <div class="stat"><b id="st-speed">–</b><span>km/h top speed</span></div>
+    <div class="stat"><b id="st-days">–</b><span>dni na nartach</span></div>
+    <div class="stat"><b id="st-vert">–</b><span>km w pionie</span></div>
+    <div class="stat"><b id="st-km">–</b><span>km zjazdów</span></div>
+    <div class="stat"><b id="st-speed">–</b><span>km/h prędkość maks.</span></div>
   </div>
 
   <div class="row">
-    <span class="label">View</span>
+    <span class="label">Widok</span>
     <div class="seg" data-control="view">
-      <button aria-pressed="true" data-value="2d">2D map</button>
-      <button aria-pressed="false" data-value="3d">3D terrain</button>
+      <button aria-pressed="true" data-value="2d">Mapa 2D</button>
+      <button aria-pressed="false" data-value="3d">Teren 3D</button>
     </div>
   </div>
   <div class="row">
-    <span class="label">Color by</span>
+    <span class="label">Koloruj według</span>
     <div class="seg" data-control="color">
-      <button aria-pressed="true" data-value="heat">How often</button>
-      <button aria-pressed="false" data-value="speed">Speed</button>
+      <button aria-pressed="true" data-value="heat">Częstości</button>
+      <button aria-pressed="false" data-value="speed">Prędkości</button>
     </div>
   </div>
   <div class="row">
-    <span class="label">Background</span>
+    <span class="label">Tło</span>
     <div class="seg" data-control="base">
-      <button aria-pressed="true" data-value="dark">Dark</button>
-      <button aria-pressed="false" data-value="satellite">Satellite</button>
+      <button aria-pressed="true" data-value="dark">Ciemne</button>
+      <button aria-pressed="false" data-value="satellite">Satelita</button>
     </div>
   </div>
   <div class="row">
-    <label for="season">Season</label>
-    <select id="season"><option value="all">All seasons</option></select>
+    <label for="season">Sezon</label>
+    <select id="season"><option value="all">Wszystkie sezony</option></select>
   </div>
   <div class="row">
-    <label class="check"><input type="checkbox" id="lifts"> Show lift rides</label>
+    <label class="check"><input type="checkbox" id="lifts"> Pokaż wjazdy wyciągami</label>
   </div>
 
   <div class="legend" id="legend"></div>
@@ -205,7 +206,7 @@ Promise.all([mapLoaded, dataLoaded]).then(([, [segments, summary]]) => {
   if (state.view === "3d") setView("3d");
 }).catch(err => {
   document.getElementById("status").textContent =
-    "Could not load data/segments.geojson. Run the export, then serve this folder over HTTP.";
+    "Nie udało się wczytać data/segments.geojson. Uruchom eksport, a potem serwuj ten folder przez HTTP.";
   console.error(err);
 });
 
@@ -213,10 +214,10 @@ const seasonLabel = y => `${y}/${String((y + 1) % 100).padStart(2, "0")}`;
 
 function renderSummary(s) {
   document.getElementById("sub").textContent =
-    `${s.seasons.length} seasons, ${seasonLabel(s.seasons[0])} – ${seasonLabel(s.seasons.at(-1))}`;
+    `${s.seasons.length} ${s.seasons.length < 5 ? "sezony" : "sezonów"}, ${seasonLabel(s.seasons[0])} – ${seasonLabel(s.seasons.at(-1))}`;
   document.getElementById("st-days").textContent = s.days;
-  document.getElementById("st-vert").textContent = s.vertical_km.toLocaleString();
-  document.getElementById("st-km").textContent = s.run_km.toLocaleString();
+  document.getElementById("st-vert").textContent = s.vertical_km.toLocaleString("pl-PL");
+  document.getElementById("st-km").textContent = s.run_km.toLocaleString("pl-PL");
   document.getElementById("st-speed").textContent = s.top_speed_kmh;
   const select = document.getElementById("season");
   for (const y of s.seasons) select.add(new Option(seasonLabel(y), y));
@@ -337,14 +338,14 @@ function setView(view) {
 
 function renderLegend() {
   const legend = document.getElementById("legend");
-  const lift = state.lifts ? '<div class="lift-key"><i></i>lift ride</div>' : "";
+  const lift = state.lifts ? '<div class="lift-key"><i></i>wjazd wyciągiem</div>' : "";
   if (state.color === "heat") {
-    legend.innerHTML = `<div class="title">Days you skied each spot</div>
+    legend.innerHTML = `<div class="title">Liczba dni jazdy w każdym miejscu</div>
       <div class="bar" style="background:linear-gradient(90deg, ${HEAT_STOPS.map(([, c]) => c).join(",")})"></div>
-      <div class="ticks"><span>1 day</span><span>5</span><span>10+ days</span></div>${lift}`;
+      <div class="ticks"><span>1 dzień</span><span>5</span><span>10+ dni</span></div>${lift}`;
   } else {
     const stops = SPEED_RAMP.map(([, c]) => c).join(",");
-    legend.innerHTML = `<div class="title">Average speed over ~80 m</div>
+    legend.innerHTML = `<div class="title">Średnia prędkość na ok. 80 m</div>
       <div class="bar" style="background:linear-gradient(90deg, ${stops})"></div>
       <div class="ticks">${SPEED_RAMP.filter((_, i) => i % 2 === 0 || i === SPEED_RAMP.length - 1)
         .map(([v], i, a) => `<span>${v}${i === a.length - 1 ? "+" : ""} km/h</span>`).join("")}</div>${lift}`;
@@ -360,9 +361,9 @@ function onHover(e) {
   map.getCanvas().style.cursor = hits.length ? "pointer" : "";
   if (!hits.length) { tooltip.style.display = "none"; return; }
   const p = hits[0].properties;
-  tooltip.innerHTML = `${p.k ? "Lift ride" : "Run"} · <b>${Math.round(p.s)} km/h</b>
+  tooltip.innerHTML = `${p.k ? "Wjazd wyciągiem" : "Zjazd"} · <b>${Math.round(p.s)} km/h</b>
     <span class="muted">· ${p.d ?? seasonLabel(p.y)}</span>` +  // season-only exports carry no date
-    (p.h ? `<br><span class="muted">skied here on ${p.h} day${p.h > 1 ? "s" : ""}</span>` : "");
+    (p.h ? `<br><span class="muted">jechane tu w ${p.h} ${p.h > 1 ? "dni" : "dzień"}</span>` : "");
   tooltip.style.display = "block";
   const x = Math.min(e.point.x + 14, window.innerWidth - tooltip.offsetWidth - 8);
   tooltip.style.left = x + "px";
@@ -393,7 +394,7 @@ document.getElementById("lifts").addEventListener("change", e => { state.lifts =
   // Keep the current map position when switching views (both pages use the same #zoom/lat/lng hash).
   document.querySelector(".views").addEventListener("click", e => {
     const a = e.target.closest("a");
-    if (a) a.href = a.href.split("#")[0] + location.hash;
+    if (a && a.getAttribute("href") !== "/") a.href = a.href.split("#")[0] + location.hash;
   });
 </script>
 </body>

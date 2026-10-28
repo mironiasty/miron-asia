@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Speed Ribbons</title>
+<title>Wstęgi | Wykresy narciarskie</title>
   <script type="module" crossorigin src="./assets/ribbons-6yBcy9o4.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/tgpuVertexFn-C_AGyn8d.js">
   <link rel="modulepreload" crossorigin href="./assets/orbit-fW0hH7bi.js">
@@ -11,30 +11,30 @@
 </head>
 <body>
 <canvas id="scene" class="layer scene"></canvas>
-<div class="status" id="status">Loading tracks…</div>
+<div class="status" id="status">Wczytywanie tras…</div>
 
 <aside class="panel">
-  <nav class="views" aria-label="Views"></nav>
-  <h1>Speed ribbons</h1>
-  <p class="sub">Every run in one area as a glowing wall over the real terrain. The faster you went, the taller and brighter it is.</p>
+  <nav class="views" aria-label="Widoki"></nav>
+  <h1>Wstęgi prędkości</h1>
+  <p class="sub">Każdy zjazd w danym obszarze jako świecąca ściana nad prawdziwym terenem. Im szybciej jechałeś, tym jest wyższa i jaśniejsza.</p>
 
   <div class="row">
-    <span class="label">Area</span>
-    <select id="area" aria-label="Area"></select>
+    <span class="label">Obszar</span>
+    <select id="area" aria-label="Obszar"></select>
   </div>
   <div class="row">
-    <span class="label">Wall height</span>
+    <span class="label">Wysokość ścian</span>
     <div class="seg" data-control="wall">
-      <button aria-pressed="false" data-value="low">Low</button>
-      <button aria-pressed="true" data-value="medium">Medium</button>
-      <button aria-pressed="false" data-value="tall">Tall</button>
+      <button aria-pressed="false" data-value="low">Niska</button>
+      <button aria-pressed="true" data-value="medium">Średnia</button>
+      <button aria-pressed="false" data-value="tall">Wysoka</button>
     </div>
   </div>
   <div class="row">
-    <label class="check"><input type="checkbox" id="lifts"> Show lift rides</label>
+    <label class="check"><input type="checkbox" id="lifts"> Pokaż wjazdy wyciągami</label>
   </div>
   <div class="legend" id="legend"></div>
-  <p class="hint">Drag to orbit · right-drag or shift-drag to pan · scroll to zoom. Terrain: 12 × 12 km.</p>
+  <p class="hint">Przeciągnij, aby obracać · prawy przycisk lub Shift + przeciąganie, aby przesuwać · przewiń, aby przybliżać. Teren: 12 × 12 km.</p>
 </aside>
 
 </body>

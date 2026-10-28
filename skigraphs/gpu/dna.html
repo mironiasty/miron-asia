@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ski DNA</title>
+<title>DNA narciarza | Wykresy narciarskie</title>
 <style>#labels{pointer-events:none;z-index:1;position:absolute;inset:0;overflow:hidden}.scene-label{white-space:nowrap;font-variant-numeric:tabular-nums;font-size:11px;position:absolute;top:0;left:0}.scene-label.hour{color:#8d8b85}.scene-label.season{color:#bdbbb5;font-weight:600}</style>
   <script type="module" crossorigin src="./assets/dna-BVplMOoO.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/tgpuVertexFn-C_AGyn8d.js">
@@ -13,34 +13,34 @@
 <body>
 <canvas id="scene" class="layer scene"></canvas>
 <div id="labels"></div>
-<div class="status" id="status">Loading tracks…</div>
+<div class="status" id="status">Wczytywanie tras…</div>
 
 <aside class="panel">
-  <nav class="views" aria-label="Views"></nav>
-  <h1>Ski DNA</h1>
-  <p class="sub">Every ski day as one ridge: time of day left to right, your altitude as height, days stacked by date. Lift rides are the straight climbs.</p>
+  <nav class="views" aria-label="Widoki"></nav>
+  <h1>DNA narciarza</h1>
+  <p class="sub">Każdy dzień na nartach jako jeden grzbiet: pora dnia od lewej do prawej, wysokość jako wysokość, dni ułożone według daty. Wjazdy wyciągami to proste podejścia.</p>
 
   <div class="row">
-    <span class="label">Color by</span>
+    <span class="label">Koloruj według</span>
     <div class="seg" data-control="color">
-      <button aria-pressed="true" data-value="speed">Speed</button>
-      <button aria-pressed="false" data-value="season">Season</button>
+      <button aria-pressed="true" data-value="speed">Prędkość</button>
+      <button aria-pressed="false" data-value="season">Sezon</button>
     </div>
   </div>
   <div class="row">
-    <span class="label">Height</span>
+    <span class="label">Wysokość</span>
     <div class="seg" data-control="height">
-      <button aria-pressed="false" data-value="flat">Flat</button>
-      <button aria-pressed="true" data-value="normal">Normal</button>
-      <button aria-pressed="false" data-value="dramatic">Dramatic</button>
+      <button aria-pressed="false" data-value="flat">Płasko</button>
+      <button aria-pressed="true" data-value="normal">Normalnie</button>
+      <button aria-pressed="false" data-value="dramatic">Dramatycznie</button>
     </div>
   </div>
   <div class="row">
-    <span class="label">Seasons</span>
+    <span class="label">Sezony</span>
     <div class="chips" id="seasons"></div>
   </div>
   <div class="legend" id="legend"></div>
-  <p class="hint">Drag to orbit · right-drag or shift-drag to pan · scroll to zoom.</p>
+  <p class="hint">Przeciągnij, aby obracać · prawy przycisk lub Shift + przeciąganie, aby przesuwać · przewiń, aby przybliżać.</p>
 </aside>
 
 </body>

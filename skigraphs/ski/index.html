@@ -57,7 +57,7 @@
   .views a:hover { color: var(--ink); }
   .views a[aria-current="page"] { background: var(--ink); border-color: var(--ink); color: var(--surface); }
   .sub { color: var(--ink-muted); font-size: 12px; margin: 0 0 12px; }
-  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 14px; }
   .stat { background: var(--surface-muted); border-radius: 8px; padding: 8px 10px; }
   .stat b { display: block; font-size: 18px; font-variant-numeric: tabular-nums; }
   .stat span { color: var(--ink-secondary); font-size: 12px; }
@@ -96,7 +96,7 @@
 
   @media (max-width: 600px) {
     .panel { top: auto; bottom: 16px; right: 16px; width: auto; max-height: 50%; }
-    .stats { grid-template-columns: repeat(4, 1fr); gap: 4px; }
+    .stats { grid-template-columns: repeat(3, 1fr); gap: 4px; }
     .stat { padding: 6px; }
     .stat b { font-size: 15px; }
   }
@@ -123,7 +123,6 @@
     <div class="stat"><b id="st-days">–</b><span>dni na nartach</span></div>
     <div class="stat"><b id="st-vert">–</b><span>km w pionie</span></div>
     <div class="stat"><b id="st-km">–</b><span>km zjazdów</span></div>
-    <div class="stat"><b id="st-speed">–</b><span>km/h prędkość maks.</span></div>
   </div>
 
   <div class="row">
@@ -219,7 +218,6 @@ function renderSummary(s) {
   document.getElementById("st-days").textContent = s.days;
   document.getElementById("st-vert").textContent = s.vertical_km.toLocaleString("pl-PL");
   document.getElementById("st-km").textContent = s.run_km.toLocaleString("pl-PL");
-  document.getElementById("st-speed").textContent = s.top_speed_kmh;
   const select = document.getElementById("season");
   for (const y of s.seasons) select.add(new Option(seasonLabel(y), y));
 }

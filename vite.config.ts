@@ -14,6 +14,10 @@ export default defineConfig({
           src: 'przepisy',
           dest: ''
         },
+        {
+          src: 'skigraphs',
+          dest: ''
+        },
       ],
     }),],
 

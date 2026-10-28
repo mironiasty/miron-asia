@@ -386,6 +386,66 @@ main {
   }
 }
 
+.projects--three {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 900px) {
+  .projects--three {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .projects--three {
+    grid-template-columns: 1fr;
+  }
+}
+
+.skigraphs__lead {
+  max-width: 640px;
+  margin: 0 0 24px;
+  color: var(--muted);
+}
+
+.skigraphs__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  margin: 0 0 28px;
+}
+
+.skigraphs__stats dt {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.skigraphs__stats dd {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.skigraphs__note {
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.project__tag {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--sky) 15%, transparent);
+  color: var(--muted);
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
 .project {
   display: flex;
   gap: 16px;

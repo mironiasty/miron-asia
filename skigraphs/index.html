@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wykresy narciarskie | Miron Szuka Śniegu</title>
+<meta name="description" content="Pięć sezonów jazdy w Austrii narysowanych z danych GPS z zegarka: mapa cieplna, duchy, wyścig zjazdów, przepływ, wstęgi prędkości i DNA narciarza.">
+<style>
+  :root {
+    --bg: #f6f5f2;
+    --surface: #ffffff;
+    --border: #dcdad5;
+    --ink: #1a1a19;
+    --ink-secondary: #55544f;
+    --ink-muted: #807e78;
+    --accent: #2a78d6;
+    --tag: #f3f2ef;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e0e0e;
+      --surface: #1a1a19;
+      --border: #383835;
+      --ink: #f0efec;
+      --ink-secondary: #bdbbb5;
+      --ink-muted: #8d8b85;
+      --accent: #3987e5;
+      --tag: #262624;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e0e0e;
+    --surface: #1a1a19;
+    --border: #383835;
+    --ink: #f0efec;
+    --ink-secondary: #bdbbb5;
+    --ink-muted: #8d8b85;
+    --accent: #3987e5;
+    --tag: #262624;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 960px; margin: 0 auto; padding: 48px 16px 64px; }
+  h1 { font-size: 34px; line-height: 1.15; margin: 0 0 8px; letter-spacing: -0.5px; }
+  .lead { color: var(--ink-secondary); font-size: 17px; max-width: 640px; margin: 0 0 24px; }
+  .stats { display: flex; flex-wrap: wrap; gap: 28px; margin: 0 0 36px; }
+  .stats div { min-width: 90px; }
+  .stats b { display: block; font-size: 26px; font-variant-numeric: tabular-nums; }
+  .stats span { color: var(--ink-muted); font-size: 13px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 14px; }
+  a.card {
+    display: block; text-decoration: none; color: inherit;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px;
+    transition: border-color .15s, transform .15s;
+  }
+  a.card:hover { border-color: var(--accent); transform: translateY(-1px); }
+  a.card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .card h2 { font-size: 18px; margin: 0 0 6px; display: flex; align-items: center; gap: 8px; }
+  .card p { margin: 0; color: var(--ink-secondary); font-size: 14px; }
+  .tag { font-size: 11px; font-weight: 500; color: var(--ink-muted); background: var(--tag); border-radius: 999px; padding: 2px 8px; }
+  footer { margin-top: 40px; color: var(--ink-muted); font-size: 13px; }
+  footer p { margin: 4px 0; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Wykresy narciarskie</h1>
+  <p class="lead">Sezony jazdy w Austrii narysowane z danych GPS z zegarka sportowego.
+    Każdy zjazd, wjazd wyciągiem i dzień na stoku pokazany na sześć sposobów.</p>
+
+  <div class="stats" id="stats" hidden>
+    <div><b id="st-days"></b><span>dni na nartach</span></div>
+    <div><b id="st-seasons"></b><span>sezonów</span></div>
+    <div><b id="st-km"></b><span>km zjazdów</span></div>
+    <div><b id="st-vert"></b><span>km w pionie</span></div>
+  </div>
+
+  <div class="grid">
+    <a class="card" href="ski/">
+      <h2>Mapa cieplna</h2>
+      <p>Gdzie i jak często jeździłem, kolorowane liczbą dni albo prędkością, z widokiem 3D na teren.</p>
+    </a>
+    <a class="card" href="gpu/">
+      <h2>Duchy <span class="tag">WebGPU</span></h2>
+      <p>Wszystkie dni na nartach odtworzone naraz według pory dnia, jako świecące duchy ze smugami.</p>
+    </a>
+    <a class="card" href="gpu/race.html">
+      <h2>Wyścig <span class="tag">WebGPU</span></h2>
+      <p>Każdy zjazd w historii, wszystkie ruszają w tej samej chwili.</p>
+    </a>
+    <a class="card" href="gpu/flow.html">
+      <h2>Przepływ <span class="tag">WebGPU</span></h2>
+      <p>Cząsteczki śniegu płynące tak, jak zwykle jeździ się po trasach.</p>
+    </a>
+    <a class="card" href="gpu/ribbons.html">
+      <h2>Wstęgi <span class="tag">WebGPU</span></h2>
+      <p>Zjazdy jako świecące ściany nad trójwymiarowym terenem: im szybciej, tym wyżej.</p>
+    </a>
+    <a class="card" href="gpu/dna.html">
+      <h2>DNA narciarza <span class="tag">WebGPU</span></h2>
+      <p>Każdy dzień jako grzbiet wysokości w czasie, ułożone w pasmo górskie.</p>
+    </a>
+  </div>
+
+  <footer>
+    <p><a href="/">← Wróć na stronę główną</a></p>
+    <p>Widoki WebGPU wymagają aktualnej przeglądarki Chrome, Edge albo Safari. Dat celowo nie podaję: widać tylko sezon.</p>
+    <p>Maps © OpenStreetMap contributors, © CARTO · Terrain: Mapzen Terrain Tiles · Imagery © Esri.</p>
+  </footer>
+</main>
+<script>
+  // Headline numbers from the heatmap's summary; the page reads fine without them.
+  fetch("ski/data/summary.json")
+    .then(r => (r.ok ? r.json() : Promise.reject()))
+    .then(s => {
+      document.getElementById("st-days").textContent = s.days;
+      document.getElementById("st-seasons").textContent = s.seasons.length;
+      document.getElementById("st-km").textContent = s.run_km.toLocaleString("pl-PL");
+      document.getElementById("st-vert").textContent = s.vertical_km.toLocaleString("pl-PL");
+      document.getElementById("stats").hidden = false;
+    })
+    .catch(() => {});
+</script>
+</body>
+</html>

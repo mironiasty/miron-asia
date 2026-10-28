@@ -1,0 +1,21 @@
+{
+  "country": "austria",
+  "dates": false,
+  "days": 110,
+  "seasons": [
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "run_km": 4299,
+  "vertical_km": 864.1,
+  "top_speed_kmh": 80,
+  "bounds": [
+    10.11186,
+    46.84854,
+    13.78962,
+    47.65481
+  ]
+}

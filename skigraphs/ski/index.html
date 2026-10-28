@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skiing in Austria</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
+<style>
+  :root {
+    --surface: #ffffff;
+    --surface-muted: #f3f2ef;
+    --border: #dcdad5;
+    --ink: #1a1a19;
+    --ink-secondary: #55544f;
+    --ink-muted: #807e78;
+    --accent: #2a78d6;
+    --shadow: 0 4px 20px rgba(0, 0, 0, .25);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --surface: #1a1a19;
+      --surface-muted: #262624;
+      --border: #383835;
+      --ink: #f0efec;
+      --ink-secondary: #bdbbb5;
+      --ink-muted: #8d8b85;
+      --accent: #3987e5;
+    }
+  }
+  :root[data-theme="dark"] {
+    --surface: #1a1a19;
+    --surface-muted: #262624;
+    --border: #383835;
+    --ink: #f0efec;
+    --ink-secondary: #bdbbb5;
+    --ink-muted: #8d8b85;
+    --accent: #3987e5;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #0e0e0e; }
+  body { font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); }
+  #map { position: absolute; inset: 0; }
+
+  .panel {
+    position: absolute; top: 16px; left: 16px; z-index: 2;
+    width: 300px; max-width: calc(100% - 32px); max-height: calc(100% - 32px); overflow: auto;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    box-shadow: var(--shadow); padding: 14px 16px;
+  }
+  h1 { font-size: 17px; margin: 0 0 2px; }
+  .views { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 12px; }
+  .views a {
+    font-size: 12px; text-decoration: none; color: var(--ink-secondary);
+    padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border);
+  }
+  .views a:hover { color: var(--ink); }
+  .views a[aria-current="page"] { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+  .sub { color: var(--ink-muted); font-size: 12px; margin: 0 0 12px; }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+  .stat { background: var(--surface-muted); border-radius: 8px; padding: 8px 10px; }
+  .stat b { display: block; font-size: 18px; font-variant-numeric: tabular-nums; }
+  .stat span { color: var(--ink-secondary); font-size: 12px; }
+
+  .row { margin: 10px 0; }
+  .row > label, .row > .label { display: block; color: var(--ink-secondary); font-size: 12px; margin-bottom: 4px; }
+  .seg { display: flex; background: var(--surface-muted); border-radius: 8px; padding: 2px; }
+  .seg button {
+    flex: 1; border: 0; background: transparent; color: var(--ink-secondary);
+    padding: 6px 8px; border-radius: 6px; font: inherit; cursor: pointer;
+  }
+  .seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+  select {
+    width: 100%; font: inherit; color: var(--ink); background: var(--surface-muted);
+    border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px;
+  }
+  .check { display: flex; align-items: center; gap: 8px; color: var(--ink); cursor: pointer; }
+  .check input { accent-color: var(--accent); }
+
+  .legend { margin-top: 12px; }
+  .legend .bar { height: 10px; border-radius: 5px; }
+  .legend .ticks { display: flex; justify-content: space-between; color: var(--ink-muted); font-size: 11px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+  .legend .title { color: var(--ink-secondary); font-size: 12px; margin-bottom: 4px; }
+  .legend .lift-key { display: flex; align-items: center; gap: 6px; color: var(--ink-muted); font-size: 11px; margin-top: 6px; }
+  .legend .lift-key i { width: 18px; border-top: 2px dashed #9a9a96; }
+
+  .tooltip {
+    position: absolute; z-index: 3; pointer-events: none; display: none;
+    background: var(--surface); color: var(--ink); border: 1px solid var(--border);
+    border-radius: 8px; padding: 6px 9px; font-size: 12px; box-shadow: var(--shadow); white-space: nowrap;
+  }
+  .tooltip b { font-variant-numeric: tabular-nums; }
+  .tooltip .muted { color: var(--ink-muted); }
+
+  .status { position: absolute; inset: 0; display: grid; place-items: center; color: #bdbbb5; z-index: 1; pointer-events: none; }
+
+  @media (max-width: 600px) {
+    .panel { top: auto; bottom: 16px; right: 16px; width: auto; max-height: 50%; }
+    .stats { grid-template-columns: repeat(4, 1fr); gap: 4px; }
+    .stat { padding: 6px; }
+    .stat b { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div class="status" id="status">Loading tracks…</div>
+
+<aside class="panel">
+  <nav class="views" aria-label="Views">
+    <a href="./" aria-current="page">Heatmap</a>
+    <a href="../gpu/">Ghosts</a>
+    <a href="../gpu/race.html">Race</a>
+    <a href="../gpu/flow.html">Flow</a>
+    <a href="../gpu/ribbons.html">Ribbons</a>
+    <a href="../gpu/dna.html">DNA</a>
+  </nav>
+  <h1>Skiing in Austria</h1>
+  <p class="sub" id="sub">&nbsp;</p>
+  <div class="stats">
+    <div class="stat"><b id="st-days">–</b><span>ski days</span></div>
+    <div class="stat"><b id="st-vert">–</b><span>km vertical</span></div>
+    <div class="stat"><b id="st-km">–</b><span>km of runs</span></div>
+    <div class="stat"><b id="st-speed">–</b><span>km/h top speed</span></div>
+  </div>
+
+  <div class="row">
+    <span class="label">View</span>
+    <div class="seg" data-control="view">
+      <button aria-pressed="true" data-value="2d">2D map</button>
+      <button aria-pressed="false" data-value="3d">3D terrain</button>
+    </div>
+  </div>
+  <div class="row">
+    <span class="label">Color by</span>
+    <div class="seg" data-control="color">
+      <button aria-pressed="true" data-value="heat">How often</button>
+      <button aria-pressed="false" data-value="speed">Speed</button>
+    </div>
+  </div>
+  <div class="row">
+    <span class="label">Background</span>
+    <div class="seg" data-control="base">
+      <button aria-pressed="true" data-value="dark">Dark</button>
+      <button aria-pressed="false" data-value="satellite">Satellite</button>
+    </div>
+  </div>
+  <div class="row">
+    <label for="season">Season</label>
+    <select id="season"><option value="all">All seasons</option></select>
+  </div>
+  <div class="row">
+    <label class="check"><input type="checkbox" id="lifts"> Show lift rides</label>
+  </div>
+
+  <div class="legend" id="legend"></div>
+</aside>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+const HEAT_RAMP = ["#104281", "#1c5cab", "#2a78d6", "#5598e7", "#86b6ef", "#cde2fb"];
+const SPEED_RAMP = [[5, "#7a3214"], [15, "#b0461c"], [25, "#d95926"], [35, "#eb6834"], [45, "#f39a6e"], [60, "#fbd0b9"]];
+const LIFT_COLOR = "#9a9a96";
+const TERRAIN_TILES = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png";
+
+const HEAT_STOPS = [[1, "#1c5cab"], [2, "#2a78d6"], [4, "#5598e7"], [6, "#86b6ef"], [10, "#cde2fb"]];
+
+// Initial state can come from the URL, e.g. ?view=3d&color=speed&base=satellite&season=2024&lifts=1
+const params = new URLSearchParams(location.search);
+const state = {
+  view: params.get("view") === "3d" ? "3d" : "2d",
+  color: params.get("color") === "speed" ? "speed" : "heat",
+  base: params.get("base") === "satellite" ? "satellite" : "dark",
+  season: params.get("season") || "all",
+  lifts: params.get("lifts") === "1",
+};
+
+const sharedView = Boolean(location.hash);  // read before the map starts writing its own hash
+const map = new maplibregl.Map({
+  container: "map",
+  style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+  center: [12, 47.25], zoom: 7, maxPitch: 80, hash: true,
+});
+map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), "top-right");
+map.addControl(new maplibregl.ScaleControl(), "bottom-right");
+
+const mapLoaded = new Promise(resolve => map.on("load", resolve));
+const dataLoaded = Promise.all([
+  fetch("data/segments.geojson").then(r => r.json()),
+  fetch("data/summary.json").then(r => r.json()),
+]);
+
+Promise.all([mapLoaded, dataLoaded]).then(([, [segments, summary]]) => {
+  document.getElementById("status").remove();
+  renderSummary(summary);
+  addLayers(segments);
+  if (!sharedView) {  // a shared/reloaded URL keeps its own view
+    const wide = window.innerWidth > 600;
+    map.fitBounds([[summary.bounds[0], summary.bounds[1]], [summary.bounds[2], summary.bounds[3]]],
+                  { padding: { top: 40, bottom: wide ? 40 : 260, left: wide ? 340 : 20, right: 40 }, duration: 0 });
+  }
+  syncControls();
+  applyState();
+  if (state.view === "3d") setView("3d");
+}).catch(err => {
+  document.getElementById("status").textContent =
+    "Could not load data/segments.geojson. Run the export, then serve this folder over HTTP.";
+  console.error(err);
+});
+
+const seasonLabel = y => `${y}/${String((y + 1) % 100).padStart(2, "0")}`;
+
+function renderSummary(s) {
+  document.getElementById("sub").textContent =
+    `${s.seasons.length} seasons, ${seasonLabel(s.seasons[0])} – ${seasonLabel(s.seasons.at(-1))}`;
+  document.getElementById("st-days").textContent = s.days;
+  document.getElementById("st-vert").textContent = s.vertical_km.toLocaleString();
+  document.getElementById("st-km").textContent = s.run_km.toLocaleString();
+  document.getElementById("st-speed").textContent = s.top_speed_kmh;
+  const select = document.getElementById("season");
+  for (const y of s.seasons) select.add(new Option(seasonLabel(y), y));
+}
+
+function addLayers(segments) {
+  // The low-zoom heatmap needs points: one per segment midpoint, weighted by its length.
+  const points = {
+    type: "FeatureCollection",
+    features: segments.features.map(f => {
+      const c = f.geometry.coordinates;
+      return { type: "Feature", properties: f.properties, geometry: { type: "Point", coordinates: c[c.length >> 1] } };
+    }),
+  };
+  map.addSource("segments", { type: "geojson", data: segments });
+  map.addSource("points", { type: "geojson", data: points });
+  map.addSource("dem-hillshade", { type: "raster-dem", tiles: [TERRAIN_TILES], encoding: "terrarium", tileSize: 256, maxzoom: 14,
+    attribution: '<a href="https://github.com/tilezen/joerd/blob/master/docs/attribution.md">Terrain Tiles</a>' });
+  map.addSource("dem-terrain", { type: "raster-dem", tiles: [TERRAIN_TILES], encoding: "terrarium", tileSize: 256, maxzoom: 14 });
+  map.addSource("satellite", { type: "raster", tileSize: 256, maxzoom: 19,
+    tiles: ["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
+    attribution: "Imagery © Esri, Maxar, Earthstar Geographics" });
+
+  const firstLabel = map.getStyle().layers.find(l => l.type === "symbol")?.id;
+  // The basemap draws water in blue; make it neutral so blue on the map only ever means ski data.
+  for (const layer of map.getStyle().layers) {
+    if (!/water|river/.test(layer.id)) continue;
+    if (layer.type === "fill") map.setPaintProperty(layer.id, "fill-color", "#222221");
+    if (layer.type === "line") map.setPaintProperty(layer.id, "line-color", "#2c2c2a");
+    if (layer.type === "symbol") map.setPaintProperty(layer.id, "text-color", "#6b6a66");
+  }
+  map.addLayer({ id: "satellite", type: "raster", source: "satellite", layout: { visibility: "none" } }, firstLabel);
+  map.addLayer({ id: "hillshade", type: "hillshade", source: "dem-hillshade",
+    paint: { "hillshade-shadow-color": "#000000", "hillshade-highlight-color": "#5a5a58",
+             "hillshade-accent-color": "#000000", "hillshade-exaggeration": 0.45 } }, firstLabel);
+
+  map.addLayer({
+    id: "heat", type: "heatmap", source: "points", maxzoom: 13,
+    paint: {
+      "heatmap-weight": ["/", ["get", "m"], 80],
+      "heatmap-intensity": ["interpolate", ["exponential", 2], ["zoom"], 6, 0.004, 9, 0.03, 12, 0.3],
+      "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 6, 5, 9, 9, 12, 16],
+      "heatmap-color": ["interpolate", ["linear"], ["heatmap-density"],
+        0, "rgba(16,66,129,0)", 0.08, HEAT_RAMP[0], 0.25, HEAT_RAMP[1], 0.45, HEAT_RAMP[2],
+        0.65, HEAT_RAMP[3], 0.85, HEAT_RAMP[4], 1, HEAT_RAMP[5]],
+      "heatmap-opacity": ["interpolate", ["linear"], ["zoom"], 10.5, 0.9, 12.5, 0],
+    },
+  });
+  map.addLayer({
+    id: "lifts", type: "line", source: "segments", minzoom: 10,
+    layout: { "line-cap": "butt" },
+    paint: { "line-color": LIFT_COLOR, "line-width": 1.5, "line-dasharray": [2, 2],
+             "line-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0, 11.5, 0.7] },
+  });
+  map.addLayer({
+    id: "runs-casing", type: "line", source: "segments", minzoom: 10,
+    layout: { "line-cap": "round", "line-join": "round", visibility: "none" },
+    paint: { "line-color": "#000000", "line-width": ["interpolate", ["linear"], ["zoom"], 11, 3, 16, 6],
+             "line-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0, 11.5, 0.35] },
+  });
+  map.addLayer({
+    id: "runs", type: "line", source: "segments", minzoom: 10,
+    layout: { "line-cap": "round", "line-join": "round", "line-sort-key": ["get", "h"] },
+    paint: { "line-width": ["interpolate", ["linear"], ["zoom"], 11, 1.2, 16, 3] },
+  });
+
+  map.on("mousemove", onHover);
+  map.on("mouseleave", () => { tooltip.style.display = "none"; });
+}
+
+function applyState() {
+  if (!map.getLayer("runs")) return;
+  const season = state.season === "all" ? true : ["==", ["get", "y"], Number(state.season)];
+  const runs = ["all", ["==", ["get", "k"], 0], season];
+  map.setFilter("runs", runs);
+  map.setFilter("runs-casing", runs);
+  map.setFilter("heat", state.lifts ? ["all", season] : runs);
+  map.setFilter("lifts", ["all", ["==", ["get", "k"], 1], season]);
+  map.setLayoutProperty("lifts", "visibility", state.lifts ? "visible" : "none");
+
+  // Heat: one blue ramp by the number of days skied through each spot. Speed: one orange ramp, slow -> fast.
+  const fade = (lo, hi) => ["interpolate", ["linear"], ["zoom"], 10, 0, 11.5, lo, 15, hi];
+  if (state.color === "heat") {
+    map.setPaintProperty("runs", "line-color",
+      ["interpolate", ["linear"], ["get", "h"], ...HEAT_STOPS.flat()]);
+    map.setPaintProperty("runs", "line-opacity", fade(0.85, 0.9));
+  } else {
+    map.setPaintProperty("runs", "line-color",
+      ["interpolate", ["linear"], ["get", "s"], ...SPEED_RAMP.flat()]);
+    map.setPaintProperty("runs", "line-opacity", fade(0.75, 0.9));
+  }
+
+  const satellite = state.base === "satellite";
+  map.setLayoutProperty("satellite", "visibility", satellite ? "visible" : "none");
+  map.setLayoutProperty("hillshade", "visibility", satellite ? "none" : "visible");
+  map.setLayoutProperty("runs-casing", "visibility", satellite ? "visible" : "none");
+
+  renderLegend();
+}
+
+function setView(view) {
+  if (view === "3d") {
+    const center = map.getCenter();
+    map.setTerrain({ source: "dem-terrain", exaggeration: 1.3 });
+    // Wait for elevation data, then orbit around the ground point at the map center; otherwise the
+    // camera aims at sea level and a 3000 m glacier slides out of view. A gentler pitch and a zoom
+    // cap keep the camera above the ridges instead of inside them.
+    map.once("idle", () => map.easeTo({
+      center, elevation: map.queryTerrainElevation(center) ?? 0,
+      pitch: 55, bearing: map.getBearing() || -20,
+      zoom: Math.min(Math.max(map.getZoom(), 11), 12.3), duration: 1200,
+    }));
+  } else {
+    map.setTerrain(null);
+    map.easeTo({ pitch: 0, bearing: 0, duration: 800 });
+  }
+}
+
+function renderLegend() {
+  const legend = document.getElementById("legend");
+  const lift = state.lifts ? '<div class="lift-key"><i></i>lift ride</div>' : "";
+  if (state.color === "heat") {
+    legend.innerHTML = `<div class="title">Days you skied each spot</div>
+      <div class="bar" style="background:linear-gradient(90deg, ${HEAT_STOPS.map(([, c]) => c).join(",")})"></div>
+      <div class="ticks"><span>1 day</span><span>5</span><span>10+ days</span></div>${lift}`;
+  } else {
+    const stops = SPEED_RAMP.map(([, c]) => c).join(",");
+    legend.innerHTML = `<div class="title">Average speed over ~80 m</div>
+      <div class="bar" style="background:linear-gradient(90deg, ${stops})"></div>
+      <div class="ticks">${SPEED_RAMP.filter((_, i) => i % 2 === 0 || i === SPEED_RAMP.length - 1)
+        .map(([v], i, a) => `<span>${v}${i === a.length - 1 ? "+" : ""} km/h</span>`).join("")}</div>${lift}`;
+  }
+}
+
+const tooltip = document.getElementById("tooltip");
+function onHover(e) {
+  const layers = ["runs", ...(state.lifts ? ["lifts"] : [])].filter(id => map.getLayer(id));
+  const pad = 5;
+  const hits = map.getZoom() >= 11 ? map.queryRenderedFeatures(
+    [[e.point.x - pad, e.point.y - pad], [e.point.x + pad, e.point.y + pad]], { layers }) : [];
+  map.getCanvas().style.cursor = hits.length ? "pointer" : "";
+  if (!hits.length) { tooltip.style.display = "none"; return; }
+  const p = hits[0].properties;
+  tooltip.innerHTML = `${p.k ? "Lift ride" : "Run"} · <b>${Math.round(p.s)} km/h</b>
+    <span class="muted">· ${p.d ?? seasonLabel(p.y)}</span>` +  // season-only exports carry no date
+    (p.h ? `<br><span class="muted">skied here on ${p.h} day${p.h > 1 ? "s" : ""}</span>` : "");
+  tooltip.style.display = "block";
+  const x = Math.min(e.point.x + 14, window.innerWidth - tooltip.offsetWidth - 8);
+  tooltip.style.left = x + "px";
+  tooltip.style.top = (e.point.y + 14) + "px";
+}
+
+function syncControls() {
+  document.querySelectorAll(".seg").forEach(group => group.querySelectorAll("button").forEach(b =>
+    b.setAttribute("aria-pressed", String(b.dataset.value === state[group.dataset.control]))));
+  document.getElementById("season").value = state.season;
+  document.getElementById("lifts").checked = state.lifts;
+}
+
+document.querySelectorAll(".seg").forEach(group => {
+  group.addEventListener("click", e => {
+    const button = e.target.closest("button");
+    if (!button) return;
+    group.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b === button)));
+    const key = group.dataset.control;
+    state[key] = button.dataset.value;
+    if (key === "view") setView(state.view); else applyState();
+  });
+});
+document.getElementById("season").addEventListener("change", e => { state.season = e.target.value; applyState(); });
+document.getElementById("lifts").addEventListener("change", e => { state.lifts = e.target.checked; applyState(); });
+</script>
+<script>
+  // Keep the current map position when switching views (both pages use the same #zoom/lat/lng hash).
+  document.querySelector(".views").addEventListener("click", e => {
+    const a = e.target.closest("a");
+    if (a) a.href = a.href.split("#")[0] + location.hash;
+  });
+</script>
+</body>
+</html>

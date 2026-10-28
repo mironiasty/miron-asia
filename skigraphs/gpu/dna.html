@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ski DNA</title>
+<style>#labels{pointer-events:none;z-index:1;position:absolute;inset:0;overflow:hidden}.scene-label{white-space:nowrap;font-variant-numeric:tabular-nums;font-size:11px;position:absolute;top:0;left:0}.scene-label.hour{color:#8d8b85}.scene-label.season{color:#bdbbb5;font-weight:600}</style>
+  <script type="module" crossorigin src="./assets/dna-BVplMOoO.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/tgpuVertexFn-C_AGyn8d.js">
+  <link rel="modulepreload" crossorigin href="./assets/orbit-fW0hH7bi.js">
+  <link rel="stylesheet" crossorigin href="./assets/tgpuVertexFn-BUj_fVG1.css">
+</head>
+<body>
+<canvas id="scene" class="layer scene"></canvas>
+<div id="labels"></div>
+<div class="status" id="status">Loading tracks…</div>
+
+<aside class="panel">
+  <nav class="views" aria-label="Views"></nav>
+  <h1>Ski DNA</h1>
+  <p class="sub">Every ski day as one ridge: time of day left to right, your altitude as height, days stacked by date. Lift rides are the straight climbs.</p>
+
+  <div class="row">
+    <span class="label">Color by</span>
+    <div class="seg" data-control="color">
+      <button aria-pressed="true" data-value="speed">Speed</button>
+      <button aria-pressed="false" data-value="season">Season</button>
+    </div>
+  </div>
+  <div class="row">
+    <span class="label">Height</span>
+    <div class="seg" data-control="height">
+      <button aria-pressed="false" data-value="flat">Flat</button>
+      <button aria-pressed="true" data-value="normal">Normal</button>
+      <button aria-pressed="false" data-value="dramatic">Dramatic</button>
+    </div>
+  </div>
+  <div class="row">
+    <span class="label">Seasons</span>
+    <div class="chips" id="seasons"></div>
+  </div>
+  <div class="legend" id="legend"></div>
+  <p class="hint">Drag to orbit · right-drag or shift-drag to pan · scroll to zoom.</p>
+</aside>
+
+</body>
+</html>

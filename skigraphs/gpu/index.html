@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ghost Skiers</title>
+  <script type="module" crossorigin src="./assets/tgpuVertexFn-C_AGyn8d.js"></script>
+  <script type="module" crossorigin src="./assets/map-CkGKUfEB.js"></script>
+  <script type="module" crossorigin src="./assets/main-BEHjcZg1.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/tgpuVertexFn-BUj_fVG1.css">
+  <link rel="stylesheet" crossorigin href="./assets/map-DRZ-Otfa.css">
+</head>
+<body>
+<div id="map" class="layer"></div>
+<canvas id="ghosts" class="layer overlay"></canvas>
+<div class="status" id="status">Loading ghosts…</div>
+
+<aside class="panel">
+  <nav class="views" aria-label="Views"></nav>
+  <h1>Ghost skiers</h1>
+  <p class="sub">Every ski day in Austria, replayed at the same time</p>
+
+  <div class="clock"><b id="clock">--:--</b><span id="active">&nbsp;</span></div>
+  <div class="transport">
+    <button id="play" aria-label="Pause">❚❚</button>
+    <input type="range" id="scrub" step="1" aria-label="Time of day">
+  </div>
+
+  <div class="row">
+    <span class="label">Replay speed</span>
+    <div class="seg" data-control="speed">
+      <button aria-pressed="false" data-value="120">2 min/s</button>
+      <button aria-pressed="true" data-value="300">5 min/s</button>
+      <button aria-pressed="false" data-value="900">15 min/s</button>
+    </div>
+  </div>
+  <div class="row">
+    <span class="label">Trail</span>
+    <div class="seg" data-control="trail">
+      <button aria-pressed="false" data-value="short">5 min</button>
+      <button aria-pressed="true" data-value="long">30 min</button>
+      <button aria-pressed="false" data-value="day">All day</button>
+    </div>
+  </div>
+  <div class="row">
+    <span class="label">Color by</span>
+    <div class="seg" data-control="color">
+      <button aria-pressed="true" data-value="speed">Speed</button>
+      <button aria-pressed="false" data-value="season">Season</button>
+    </div>
+  </div>
+  <div class="row">
+    <span class="label">Seasons</span>
+    <div class="chips" id="seasons"></div>
+  </div>
+  <div class="row">
+    <label class="check"><input type="checkbox" id="lifts" checked> Show lift rides</label>
+  </div>
+  <div class="legend" id="legend"></div>
+</aside>
+
+</body>
+</html>

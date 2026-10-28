@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ski Flow</title>
+  <script type="module" crossorigin src="./assets/flow-iSot2jhj.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/tgpuVertexFn-C_AGyn8d.js">
+  <link rel="modulepreload" crossorigin href="./assets/map-CkGKUfEB.js">
+  <link rel="stylesheet" crossorigin href="./assets/tgpuVertexFn-BUj_fVG1.css">
+  <link rel="stylesheet" crossorigin href="./assets/map-DRZ-Otfa.css">
+</head>
+<body>
+<div id="map" class="layer"></div>
+<canvas id="flow" class="layer overlay"></canvas>
+<div class="status" id="status">Loading tracks…</div>
+
+<aside class="panel">
+  <nav class="views" aria-label="Views"></nav>
+  <h1>Flow of your skiing</h1>
+  <p class="sub">Snow particles stream the way you usually ski. Zoom into a resort.</p>
+
+  <div class="row">
+    <span class="label">Particles</span>
+    <div class="seg" data-control="particles">
+      <button aria-pressed="false" data-value="calm">Calm</button>
+      <button aria-pressed="true" data-value="busy">Busy</button>
+      <button aria-pressed="false" data-value="blizzard">Blizzard</button>
+    </div>
+  </div>
+  <div class="row">
+    <span class="label">Flow speed</span>
+    <div class="seg" data-control="speed">
+      <button aria-pressed="false" data-value="slow">Slow</button>
+      <button aria-pressed="true" data-value="normal">Normal</button>
+      <button aria-pressed="false" data-value="fast">Fast</button>
+    </div>
+  </div>
+  <div class="row">
+    <span class="label">Color by</span>
+    <div class="seg" data-control="color">
+      <button aria-pressed="true" data-value="speed">Speed</button>
+      <button aria-pressed="false" data-value="snow">Snow</button>
+    </div>
+  </div>
+  <div class="legend" id="legend"></div>
+  <p class="hint">Built from every run (lifts and standing excluded) in the current view.</p>
+</aside>
+
+</body>
+</html>

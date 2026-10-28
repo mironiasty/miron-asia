@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Speed Ribbons</title>
+  <script type="module" crossorigin src="./assets/ribbons-6yBcy9o4.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/tgpuVertexFn-C_AGyn8d.js">
+  <link rel="modulepreload" crossorigin href="./assets/orbit-fW0hH7bi.js">
+  <link rel="stylesheet" crossorigin href="./assets/tgpuVertexFn-BUj_fVG1.css">
+</head>
+<body>
+<canvas id="scene" class="layer scene"></canvas>
+<div class="status" id="status">Loading tracks…</div>
+
+<aside class="panel">
+  <nav class="views" aria-label="Views"></nav>
+  <h1>Speed ribbons</h1>
+  <p class="sub">Every run in one area as a glowing wall over the real terrain. The faster you went, the taller and brighter it is.</p>
+
+  <div class="row">
+    <span class="label">Area</span>
+    <select id="area" aria-label="Area"></select>
+  </div>
+  <div class="row">
+    <span class="label">Wall height</span>
+    <div class="seg" data-control="wall">
+      <button aria-pressed="false" data-value="low">Low</button>
+      <button aria-pressed="true" data-value="medium">Medium</button>
+      <button aria-pressed="false" data-value="tall">Tall</button>
+    </div>
+  </div>
+  <div class="row">
+    <label class="check"><input type="checkbox" id="lifts"> Show lift rides</label>
+  </div>
+  <div class="legend" id="legend"></div>
+  <p class="hint">Drag to orbit · right-drag or shift-drag to pan · scroll to zoom. Terrain: 12 × 12 km.</p>
+</aside>
+
+</body>
+</html>

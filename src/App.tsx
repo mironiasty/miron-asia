@@ -19,6 +19,7 @@ import blaskIcon from "./assets/projects/blask.png";
 import liftradarLogo from "./assets/projects/liftradar.svg";
 import photos from "./photos";
 import videos from "./videos.json";
+import skiSummary from "../skigraphs/ski/data/summary.json";
 
 const YOUTUBE_URL = "https://www.youtube.com/@panjamnik";
 
@@ -35,6 +36,22 @@ const projects = [
     icon: <img src={liftradarLogo} alt="" />,
     description: "Warunki śniegowe w alpejskich ośrodkach: pokrywa śnieżna, otwarte wyciągi i trasy, aktualizowane dwa razy dziennie.",
   },
+];
+
+const skiGraphs = [
+  { href: "skigraphs/ski/", name: "Mapa cieplna", description: "Gdzie i jak często jeździłem, kolorowane liczbą dni albo prędkością, z widokiem 3D na teren." },
+  { href: "skigraphs/gpu/", name: "Duchy", tag: "WebGPU", description: "Wszystkie dni na nartach odtworzone naraz według pory dnia, jako świecące duchy ze smugami." },
+  { href: "skigraphs/gpu/race.html", name: "Wyścig", tag: "WebGPU", description: "Każdy zjazd w historii, wszystkie ruszają w tej samej chwili." },
+  { href: "skigraphs/gpu/flow.html", name: "Przepływ", tag: "WebGPU", description: "Cząsteczki śniegu płynące tak, jak zwykle jeździ się po trasach." },
+  { href: "skigraphs/gpu/ribbons.html", name: "Wstęgi", tag: "WebGPU", description: "Zjazdy jako świecące ściany nad trójwymiarowym terenem: im szybciej, tym wyżej." },
+  { href: "skigraphs/gpu/dna.html", name: "DNA narciarza", tag: "WebGPU", description: "Każdy dzień jako grzbiet wysokości w czasie, ułożone w pasmo górskie." },
+];
+
+const skiStats = [
+  { value: skiSummary.days, label: "dni na nartach" },
+  { value: skiSummary.seasons.length, label: "sezonów" },
+  { value: skiSummary.run_km.toLocaleString("pl-PL"), label: "km zjazdów" },
+  { value: skiSummary.vertical_km.toLocaleString("pl-PL"), label: "km w pionie" },
 ];
 
 const formatDate = (date: string) =>
@@ -81,6 +98,40 @@ export default function App() {
             ),
           }}
         />
+
+        <section className="section section--projects">
+          <div className="section-heading">
+            <h2>Wykresy narciarskie</h2>
+          </div>
+          <p className="skigraphs__lead">
+            Sezony jazdy w Austrii narysowane z danych GPS z zegarka sportowego. Każdy zjazd, wjazd wyciągiem i dzień na stoku
+            pokazany na sześć sposobów.
+          </p>
+          <dl className="skigraphs__stats">
+            {skiStats.map((stat) => (
+              <div key={stat.label}>
+                <dt>{stat.value}</dt>
+                <dd>{stat.label}</dd>
+              </div>
+            ))}
+          </dl>
+          <div className="projects projects--three">
+            {skiGraphs.map((graph) => (
+              <a key={graph.href} className="project" href={graph.href}>
+                <span className="project__body">
+                  <span className="project__name">
+                    {graph.name}
+                    {graph.tag && <span className="project__tag">{graph.tag}</span>}
+                  </span>
+                  <span className="project__description">{graph.description}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+          <p className="skigraphs__note">
+            Widoki WebGPU wymagają aktualnej przeglądarki Chrome, Edge albo Safari. Dat celowo nie podaję: widać tylko sezon.
+          </p>
+        </section>
 
         <section className="section section--projects">
           <div className="section-heading">

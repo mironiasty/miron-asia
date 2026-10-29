@@ -251,6 +251,29 @@ main {
   text-decoration: none;
 }
 
+.video--photo {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.video--photo .video__thumb {
+  aspect-ratio: 4 / 3;
+}
+
+.photo-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 28px 20px;
+}
+
+.page-heading {
+  margin-top: 16px;
+}
+
 .video__thumb {
   position: relative;
   display: block;

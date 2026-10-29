@@ -61,3 +61,6 @@ const photos = [
 );
 
 export default photos;
+
+// newest first, the order used by the strip on the home page and by the photo list
+export const latestPhotos = [...photos].reverse();

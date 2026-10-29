@@ -1,25 +1,14 @@
-import { useRef, useState } from "react";
-
-import { MasonryPhotoAlbum } from "react-photo-album";
-import "react-photo-album/masonry.css";
-
-import Lightbox from "yet-another-react-lightbox";
-import "yet-another-react-lightbox/styles.css";
-// import optional lightbox plugins
-import Captions from "yet-another-react-lightbox/plugins/captions";
-import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
-import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
-import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import "yet-another-react-lightbox/plugins/captions.css";
-import "yet-another-react-lightbox/plugins/thumbnails.css";
+import { useEffect, useState } from "react";
 
 import hero from "./assets/jamnikflamia.jpg";
 import blaskIcon from "./assets/projects/blask.png";
 import liftradarLogo from "./assets/projects/liftradar.svg";
-import photos from "./photos";
+import PhotoCard from "./PhotoCard";
+import PhotoLightbox from "./PhotoLightbox";
+import { latestPhotos } from "./photos";
+import { formatDate } from "./format";
+import { useScroller } from "./useScroller";
 import videos from "./videos.json";
-import skiSummary from "../skigraphs/ski/data/summary.json";
 
 const YOUTUBE_URL = "https://www.youtube.com/@panjamnik";
 
@@ -47,18 +36,26 @@ const skiGraphs = [
   { href: "skigraphs/gpu/dna.html", name: "DNA narciarza", tag: "WebGPU", description: "Każdy dzień jako grzbiet wysokości w czasie, ułożone w pasmo górskie." },
 ];
 
-const skiStats = [
-  { value: skiSummary.days, label: "dni na nartach" },
-  { value: skiSummary.seasons.length, label: "sezonów" },
-  { value: skiSummary.run_km.toLocaleString("pl-PL"), label: "km zjazdów" },
-  { value: skiSummary.vertical_km.toLocaleString("pl-PL"), label: "km w pionie" },
-];
+type SkiSummary = { days: number; seasons: unknown[]; run_km: number; vertical_km: number };
 
-const formatDate = (date: string) =>
-  new Date(date).toLocaleDateString("pl-PL", { day: "numeric", month: "long", year: "numeric" });
+const toSkiStats = (summary: SkiSummary) => [
+  { value: summary.days, label: "dni na nartach" },
+  { value: summary.seasons.length, label: "sezonów" },
+  { value: summary.run_km.toLocaleString("pl-PL"), label: "km zjazdów" },
+  { value: summary.vertical_km.toLocaleString("pl-PL"), label: "km w pionie" },
+];
 
 export default function App() {
   const [index, setIndex] = useState(-1);
+  const [skiStats, setSkiStats] = useState<ReturnType<typeof toSkiStats>>([]);
+
+  // loaded at runtime: /skigraphs is served as static files, it can't be imported as a module in dev
+  useEffect(() => {
+    fetch("skigraphs/ski/data/summary.json")
+      .then((response) => response.json())
+      .then((summary: SkiSummary) => setSkiStats(toSkiStats(summary)))
+      .catch(() => {});
+  }, []);
 
   return (
     <>
@@ -79,25 +76,7 @@ export default function App() {
       <main>
         {videos.length > 0 && <Videos />}
 
-        <div className="section-heading">
-          <h2>Galeria</h2>
-          <span className="section-heading__count">{photos.length} zdjęć</span>
-        </div>
-
-        <MasonryPhotoAlbum
-          photos={photos}
-          spacing={(width) => (width < 600 ? 12 : 20)}
-          columns={(width) => (width < 500 ? 1 : width < 900 ? 2 : 3)}
-          onClick={({ index }) => setIndex(index)}
-          render={{
-            extras: (_, { photo }) => (
-              <span className="photo-caption">
-                <span className="photo-caption__title">{photo.title}</span>
-                <span className="photo-caption__date">{formatDate(photo.date)}</span>
-              </span>
-            ),
-          }}
-        />
+        <Gallery onOpen={setIndex} />
 
         <section className="section section--projects">
           <div className="section-heading">
@@ -172,24 +151,42 @@ export default function App() {
         </a>
       </footer>
 
-      <Lightbox
-        slides={photos}
-        open={index >= 0}
-        index={index}
-        close={() => setIndex(-1)}
-        plugins={[Captions, Fullscreen, Slideshow, Thumbnails, Zoom]}
-      />
+      <PhotoLightbox slides={latestPhotos} index={index} close={() => setIndex(-1)} />
     </>
   );
 }
 
-function Videos() {
-  const scroller = useRef<HTMLDivElement>(null);
+function Gallery({ onOpen }: { onOpen: (index: number) => void }) {
+  const { scroller, scroll } = useScroller();
 
-  const scroll = (direction: 1 | -1) => {
-    const element = scroller.current;
-    if (element) element.scrollBy({ left: direction * element.clientWidth * 0.9, behavior: "smooth" });
-  };
+  return (
+    <section className="section">
+      <div className="section-heading">
+        <h2>Galeria</h2>
+        <div className="section-heading__actions">
+          <a className="section-heading__link" href="photos/">
+            Wszystkie zdjęcia →
+          </a>
+          <button className="scroll-button" type="button" aria-label="Poprzednie zdjęcia" onClick={() => scroll(-1)}>
+            ‹
+          </button>
+          <button className="scroll-button" type="button" aria-label="Następne zdjęcia" onClick={() => scroll(1)}>
+            ›
+          </button>
+        </div>
+      </div>
+
+      <div className="videos" ref={scroller}>
+        {latestPhotos.map((photo, i) => (
+          <PhotoCard key={photo.src} photo={photo} onOpen={() => onOpen(i)} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Videos() {
+  const { scroller, scroll } = useScroller();
 
   return (
     <section className="section">

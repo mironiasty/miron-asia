@@ -20,5 +20,13 @@ export default defineConfig({
         },
       ],
     }),],
+  build: {
+    rollupOptions: {
+      input: {
+        main: 'index.html',
+        photos: 'photos/index.html',
+      },
+    },
+  },
 
 })

@@ -66,10 +66,6 @@ export default function App() {
             <img className="hero__logo" src="/favicon.svg" alt="" />
             Miron Szuka Śniegu
           </h1>
-          <a className="button" href={YOUTUBE_URL} target="_blank" rel="noreferrer">
-            <YouTubeIcon />
-            Obejrzyj na YouTube
-          </a>
         </div>
       </header>
 
@@ -142,13 +138,9 @@ export default function App() {
         <span className="footer__brand">
           <img src="/favicon.svg" width="28" height="28" alt="" />
           <span>
-            © {new Date().getFullYear()} <b>Pan Jamnik</b>
+            © {new Date().getFullYear()} <b>Miron Pawlik</b>
           </span>
         </span>
-        <a className="footer__channel" href={YOUTUBE_URL} target="_blank" rel="noreferrer">
-          <YouTubeIcon />
-          @panjamnik
-        </a>
       </footer>
 
       <PhotoLightbox slides={latestPhotos} index={index} close={() => setIndex(-1)} />

@@ -101,30 +101,6 @@ body {
   filter: drop-shadow(0 4px 12px rgb(0 0 0 / 35%));
 }
 
-.button {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 22px;
-  border-radius: 999px;
-  background: var(--flamingo);
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-  box-shadow: 0 6px 20px -6px rgb(255 79 154 / 60%);
-  transition: background-color 200ms, transform 200ms;
-}
-
-.button:hover {
-  background: var(--flamingo-dark);
-  transform: translateY(-1px);
-}
-
-.button:focus-visible {
-  outline: 3px solid #fff;
-  outline-offset: 3px;
-}
-
 /* Gallery */
 
 main {
@@ -557,10 +533,6 @@ main {
   font-size: 0.9rem;
 }
 
-.footer a {
-  color: inherit;
-}
-
 .footer__brand {
   display: inline-flex;
   align-items: center;
@@ -578,29 +550,12 @@ main {
   font-weight: 600;
 }
 
-.footer__channel {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.footer__channel svg {
-  color: #ff0000;
-}
-
-.footer a:hover {
-  color: var(--flamingo);
-}
-
 @media (prefers-reduced-motion: reduce) {
   .react-photo-album--photo,
   .react-photo-album--image,
   .video__thumb,
   .video__thumb img,
-  .project,
-  .button {
+  .project {
     transition: none;
   }
 }

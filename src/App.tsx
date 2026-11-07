@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import hero from "./assets/jamnikflamia.jpg";
 import blaskIcon from "./assets/projects/blask.png";
 import liftradarLogo from "./assets/projects/liftradar.svg";
+import trailriderLogo from "./assets/projects/trailrider.svg";
 import PhotoCard from "./PhotoCard";
 import PhotoLightbox from "./PhotoLightbox";
 import { latestPhotos } from "./photos";
@@ -24,6 +25,12 @@ const projects = [
     url: "https://liftradar.eu",
     icon: <img src={liftradarLogo} alt="" />,
     description: "Warunki śniegowe w alpejskich ośrodkach: pokrywa śnieżna, otwarte wyciągi i trasy, aktualizowane dwa razy dziennie.",
+  },
+  {
+    name: "TrailRider",
+    url: "https://rider.liftradar.eu",
+    icon: <img src={trailriderLogo} alt="" />,
+    description: "Zamienia trasę z pliku GPX w animację z ludzikiem na mapie i film MP4. Wszystko powstaje w przeglądarce, plik nie opuszcza komputera.",
   },
 ];
 
@@ -113,7 +120,7 @@ export default function App() {
             <h2>Moje projekty</h2>
           </div>
 
-          <div className="projects">
+          <div className="projects projects--three">
             {projects.map((project) => (
               <a key={project.url} className="project" href={project.url} target="_blank" rel="noreferrer">
                 {project.image ? (
